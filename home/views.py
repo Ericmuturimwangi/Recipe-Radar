@@ -52,12 +52,13 @@ def update_recipe(request, id):
 
 # delete the recipe data
 @login_required(login_url="/login/")
-def delete(request):
+def delete_recipe(request):
     queryset = Recipe.objects.get(id=id)
     queryset.delete()
     return redirect("/")
 
 
+# login
 def login_page(request):
     if request.method == "POST":
         try:
@@ -74,12 +75,13 @@ def login_page(request):
                 messages.error(request, "Wrong Password")
                 return redirect("/login/")
         except:
-            messages.error(request, "SOmething went wrong")
+            messages.error(request, "Something went wrong")
             return redirect("/register/")
 
     return render(request, "login.html")
 
 
+# register user
 def register_page(request):
     if request.method == "POST":
         try:
@@ -100,11 +102,13 @@ def register_page(request):
     return render(request, "register.html")
 
 
+# logout
 def custom_logout(request):
     logout(request)
     return redirect("login")
 
 
+# generate the bill
 @login_required(login_url="/login/")
 def pdf(request):
     if request.method == "POST":
